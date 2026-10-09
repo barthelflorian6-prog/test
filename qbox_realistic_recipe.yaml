@@ -1,0 +1,391 @@
+$engine: 2
+$minFxVersion: 6000
+$onesync: on
+$steamRequired: false
+
+name: Qbox Realistic RP (Free Resources)
+version: 1.0.0
+author: you
+description: Qbox-Framework mit ox-Stack, Jobs, Medizin, Wirtschaft, Telefon und Gratis-Scripts.
+
+tasks:
+  # ==========================================================
+  # 0. ORDNERSTRUKTUR
+  # ==========================================================
+  - action: ensure_dir
+    path: ./tmp
+  - action: ensure_dir
+    path: ./resources/[ox]
+  - action: ensure_dir
+    path: ./resources/[qbx]
+  - action: ensure_dir
+    path: ./resources/[standalone]
+  - action: ensure_dir
+    path: ./resources/[renewed]
+  - action: ensure_dir
+    path: ./resources/[maps]
+  - action: ensure_dir
+    path: ./resources/[cfx-default]
+
+  # ==========================================================
+  # 1. CFX STANDARD-RESOURCES
+  # ==========================================================
+  - action: download_github
+    src: https://github.com/citizenfx/cfx-server-data
+    ref: master
+    dest: ./tmp/cfx-server-data
+  - action: move_path
+    src: ./tmp/cfx-server-data/resources
+    dest: ./resources/[cfx-default]/[managers]
+    # Falls du die Default-Resources nicht brauchst, kannst du diese 2 Tasks loeschen.
+
+  # ==========================================================
+  # 2. OX-STACK (Release-ZIPs, weil die fertig gebaut sind)
+  # ==========================================================
+  - action: download_file
+    url: https://github.com/overextended/oxmysql/releases/latest/download/oxmysql.zip
+    path: ./tmp/oxmysql.zip
+  - action: unzip
+    src: ./tmp/oxmysql.zip
+    dest: ./resources/[ox]
+
+  - action: download_file
+    url: https://github.com/overextended/ox_lib/releases/latest/download/ox_lib.zip
+    path: ./tmp/ox_lib.zip
+  - action: unzip
+    src: ./tmp/ox_lib.zip
+    dest: ./resources/[ox]
+
+  - action: download_file
+    url: https://github.com/overextended/ox_inventory/releases/latest/download/ox_inventory.zip
+    path: ./tmp/ox_inventory.zip
+  - action: unzip
+    src: ./tmp/ox_inventory.zip
+    dest: ./resources/[ox]
+
+  - action: download_file
+    url: https://github.com/overextended/ox_target/releases/latest/download/ox_target.zip
+    path: ./tmp/ox_target.zip
+  - action: unzip
+    src: ./tmp/ox_target.zip
+    dest: ./resources/[ox]
+
+  - action: download_file
+    url: https://github.com/overextended/ox_doorlock/releases/latest/download/ox_doorlock.zip
+    path: ./tmp/ox_doorlock.zip
+  - action: unzip
+    src: ./tmp/ox_doorlock.zip
+    dest: ./resources/[ox]
+
+  - action: download_file
+    url: https://github.com/overextended/ox_fuel/releases/latest/download/ox_fuel.zip
+    path: ./tmp/ox_fuel.zip
+  - action: unzip
+    src: ./tmp/ox_fuel.zip
+    dest: ./resources/[ox]
+
+  # ==========================================================
+  # 3. VOICE, CHARAKTER, EMOTES, IPLs, TELEFON
+  # ==========================================================
+  - action: download_file
+    url: https://github.com/AvarianKnight/pma-voice/releases/latest/download/pma-voice.zip
+    path: ./tmp/pma-voice.zip
+  - action: unzip
+    src: ./tmp/pma-voice.zip
+    dest: ./resources/[standalone]
+
+  - action: download_file
+    url: https://github.com/iLLeniumStudios/illenium-appearance/releases/latest/download/illenium-appearance.zip
+    path: ./tmp/illenium-appearance.zip
+  - action: unzip
+    src: ./tmp/illenium-appearance.zip
+    dest: ./resources/[standalone]
+
+  - action: download_github
+    src: https://github.com/alberttheprince/rpemotes-reborn
+    dest: ./resources/[standalone]/rpemotes-reborn
+
+  - action: download_github
+    src: https://github.com/Bob74/bob74_ipl
+    dest: ./resources/[standalone]/bob74_ipl
+
+  - action: download_github
+    src: https://github.com/Xogy/xsound
+    dest: ./resources/[standalone]/xsound
+
+  - action: download_github
+    src: https://github.com/WolfKnight98/wk_wars2x
+    dest: ./resources/[standalone]/wk_wars2x
+
+  # Telefon (NPWD) - Release enthaelt die fertig gebaute Version
+  - action: download_file
+    url: https://github.com/project-error/npwd/releases/latest/download/npwd.zip
+    path: ./tmp/npwd.zip
+  - action: unzip
+    src: ./tmp/npwd.zip
+    dest: ./resources/[standalone]
+
+  # ==========================================================
+  # 4. RENEWED (Bank, Wetter)
+  # ==========================================================
+  - action: download_github
+    src: https://github.com/Renewed-Scripts/Renewed-Banking
+    dest: ./resources/[renewed]/Renewed-Banking
+
+  - action: download_github
+    src: https://github.com/Renewed-Scripts/Renewed-Weathersync
+    dest: ./resources/[renewed]/Renewed-Weathersync
+
+  # ==========================================================
+  # 5. QBOX CORE
+  # ==========================================================
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_core
+    dest: ./resources/[qbx]/qbx_core
+
+  # --- Charakter / Identitaet ---
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_spawn
+    dest: ./resources/[qbx]/qbx_spawn
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_idcard
+    dest: ./resources/[qbx]/qbx_idcard
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_cityhall
+    dest: ./resources/[qbx]/qbx_cityhall
+
+  # --- Medizin / Survival / UI ---
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_medical
+    dest: ./resources/[qbx]/qbx_medical
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_ambulancejob
+    dest: ./resources/[qbx]/qbx_ambulancejob
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_hud
+    dest: ./resources/[qbx]/qbx_hud
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_smallresources
+    dest: ./resources/[qbx]/qbx_smallresources
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_radio
+    dest: ./resources/[qbx]/qbx_radio
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_density
+    dest: ./resources/[qbx]/qbx_density
+
+  # --- Fahrzeuge ---
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_vehiclekeys
+    dest: ./resources/[qbx]/qbx_vehiclekeys
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_garages
+    dest: ./resources/[qbx]/qbx_garages
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_vehicleshop
+    dest: ./resources/[qbx]/qbx_vehicleshop
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_carwash
+    dest: ./resources/[qbx]/qbx_carwash
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_scrapyard
+    dest: ./resources/[qbx]/qbx_scrapyard
+
+  # --- Wirtschaft / Wohnen ---
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_management
+    dest: ./resources/[qbx]/qbx_management
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_properties
+    dest: ./resources/[qbx]/qbx_properties
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_apartments
+    dest: ./resources/[qbx]/qbx_apartments
+
+  # --- Jobs ---
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_policejob
+    dest: ./resources/[qbx]/qbx_policejob
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_taxijob
+    dest: ./resources/[qbx]/qbx_taxijob
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_busjob
+    dest: ./resources/[qbx]/qbx_busjob
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_garbagejob
+    dest: ./resources/[qbx]/qbx_garbagejob
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_towjob
+    dest: ./resources/[qbx]/qbx_towjob
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_truckerjob
+    dest: ./resources/[qbx]/qbx_truckerjob
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_recyclejob
+    dest: ./resources/[qbx]/qbx_recyclejob
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_newsjob
+    dest: ./resources/[qbx]/qbx_newsjob
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_diving
+    dest: ./resources/[qbx]/qbx_diving
+
+  # --- Kriminelle Aktivitaeten ---
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_bankrobbery
+    dest: ./resources/[qbx]/qbx_bankrobbery
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_jewelery
+    dest: ./resources/[qbx]/qbx_jewelery
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_storerobbery
+    dest: ./resources/[qbx]/qbx_storerobbery
+  - action: download_github
+    src: https://github.com/Qbox-project/qbx_truckrobbery
+    dest: ./resources/[qbx]/qbx_truckrobbery
+
+  # ==========================================================
+  # 6. PROJECT SLOTH (Dispatch, MDT, Housing, UI)
+  # ==========================================================
+  # Diese koennen je nach Framework-Version Anpassungen brauchen.
+  # Bei Fehlern (404) einfach den jeweiligen Block auskommentieren.
+  - action: download_github
+    src: https://github.com/Project-Sloth/ps-dispatch
+    dest: ./resources/[standalone]/ps-dispatch
+  - action: download_github
+    src: https://github.com/Project-Sloth/ps-ui
+    dest: ./resources/[standalone]/ps-ui
+
+  # ==========================================================
+  # 7. MLOs (Platzhalter)
+  # ==========================================================
+  # Kostenlose MLOs haben keine feste Download-URL. Lade sie manuell
+  # aus dem Cfx.re-Forum und kopiere sie nach ./resources/[maps]/
+  # Beispiel fuer eine direkte ZIP (URL austauschen):
+  #
+  # - action: download_file
+  #   url: https://BEISPIEL.DE/mein_mlo.zip
+  #   path: ./tmp/mein_mlo.zip
+  # - action: unzip
+  #   src: ./tmp/mein_mlo.zip
+  #   dest: ./resources/[maps]
+
+  # ==========================================================
+  # 8. DATENBANK
+  # ==========================================================
+  - action: connect_database
+  # Falls ein Script eine SQL-Datei mitbringt, hier importieren, z.B.:
+  # - action: query_database
+  #   file: ./resources/[qbx]/qbx_core/qbx_core.sql
+
+  # ==========================================================
+  # 9. SERVER.CFG
+  # ==========================================================
+  - action: write_file
+    file: ./server.cfg
+    data: |
+      endpoint_add_tcp "0.0.0.0:{{serverEndpoints}}"
+      endpoint_add_udp "0.0.0.0:{{serverEndpoints}}"
+
+      sv_licenseKey "{{svLicense}}"
+      sv_hostname "{{serverName}}"
+      sets sv_projectName "{{serverName}}"
+      sets sv_projectDesc "Realistischer Qbox RP Server"
+      sets locale "de-DE"
+      sv_maxclients {{maxClients}}
+      set steam_webApiKey ""
+      sv_enforceGameBuild 3095
+
+      set mysql_connection_string "{{dbConnectionString}}"
+
+      # Qbox / ox Einstellungen
+      setr qbx:serverName "{{serverName}}"
+      setr ox:locale "de"
+      setr inventory:framework "qbx"
+      setr inventory:weight 30000
+      setr inventory:slots 50
+
+      # --- Grundlagen ---
+      ensure mapmanager
+      ensure chat
+      ensure spawnmanager
+      ensure sessionmanager
+      ensure hardcap
+
+      ensure oxmysql
+      ensure ox_lib
+      ensure qbx_core
+      ensure ox_inventory
+      ensure ox_target
+      ensure ox_doorlock
+      ensure ox_fuel
+      ensure pma-voice
+
+      # --- Charakter ---
+      ensure illenium-appearance
+      ensure qbx_spawn
+      ensure qbx_idcard
+      ensure qbx_cityhall
+      ensure rpemotes-reborn
+      ensure bob74_ipl
+
+      # --- Medizin / Survival ---
+      ensure qbx_medical
+      ensure qbx_hud
+      ensure qbx_smallresources
+      ensure qbx_radio
+      ensure qbx_density
+      ensure Renewed-Weathersync
+      ensure Renewed-Banking
+
+      # --- Fahrzeuge ---
+      ensure qbx_vehiclekeys
+      ensure qbx_garages
+      ensure qbx_vehicleshop
+      ensure qbx_carwash
+      ensure qbx_scrapyard
+      ensure wk_wars2x
+
+      # --- Firmen / Wohnen ---
+      ensure qbx_management
+      ensure qbx_apartments
+      ensure qbx_properties
+
+      # --- Jobs ---
+      ensure ps-ui
+      ensure ps-dispatch
+      ensure qbx_ambulancejob
+      ensure qbx_policejob
+      ensure qbx_taxijob
+      ensure qbx_busjob
+      ensure qbx_garbagejob
+      ensure qbx_towjob
+      ensure qbx_truckerjob
+      ensure qbx_recyclejob
+      ensure qbx_newsjob
+      ensure qbx_diving
+
+      # --- Kriminell ---
+      ensure qbx_bankrobbery
+      ensure qbx_jewelery
+      ensure qbx_storerobbery
+      ensure qbx_truckrobbery
+
+      # --- Telefon / Sound ---
+      ensure npwd
+      ensure xsound
+
+      # --- MLOs (nach allen Scripts) ---
+      ensure [maps]
+
+      # --- Admin-Rechte (Discord/Steam-ID eintragen!) ---
+      add_ace group.admin command allow
+      add_ace group.admin command.quit deny
+      add_principal group.admin group.superadmin
+
+  # ==========================================================
+  # 10. AUFRAEUMEN
+  # ==========================================================
+  - action: remove_path
+    path: ./tmp
