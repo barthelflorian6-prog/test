@@ -99,10 +99,6 @@ tasks:
     dest: ./resources/[standalone]
 
   - action: download_github
-    src: https://github.com/alberttheprince/rpemotes-reborn
-    dest: ./resources/[standalone]/rpemotes-reborn
-
-  - action: download_github
     src: https://github.com/Bob74/bob74_ipl
     dest: ./resources/[standalone]/bob74_ipl
 
