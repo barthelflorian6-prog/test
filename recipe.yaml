@@ -1,0 +1,189 @@
+name: Apokalypse RP (QBCore)
+version: 1.0.0
+author: DeinName
+description: Basis-Recipe für einen Apokalypse-/Survival-RP-Server mit QBCore
+
+# Mindestversion von txAdmin
+$minFxVersion: 5848
+$onesync: on
+
+tasks:
+  # ------------------------------------------------------------
+  # Ordnerstruktur
+  # ------------------------------------------------------------
+  - action: waste_time
+    seconds: 2
+
+  - action: download_github
+    src: https://github.com/citizenfx/cfx-server-data
+    ref: master
+    subpath: resources
+    dest: ./resources
+
+  # ------------------------------------------------------------
+  # Datenbank & Libraries
+  # ------------------------------------------------------------
+  - action: download_file
+    url: https://github.com/overextended/oxmysql/releases/latest/download/oxmysql.zip
+    path: ./tmp/oxmysql.zip
+  - action: unzip
+    src: ./tmp/oxmysql.zip
+    dest: ./resources/[standalone]/oxmysql
+
+  - action: download_file
+    url: https://github.com/overextended/ox_lib/releases/latest/download/ox_lib.zip
+    path: ./tmp/ox_lib.zip
+  - action: unzip
+    src: ./tmp/ox_lib.zip
+    dest: ./resources/[standalone]/ox_lib
+
+  - action: download_github
+    src: https://github.com/mkafrin/PolyZone
+    ref: master
+    dest: ./resources/[standalone]/PolyZone
+
+  # ------------------------------------------------------------
+  # QBCore Framework
+  # ------------------------------------------------------------
+  - action: download_github
+    src: https://github.com/qbcore-framework/qb-core
+    ref: main
+    dest: ./resources/[qb]/qb-core
+
+  - action: download_github
+    src: https://github.com/qbcore-framework/qb-smallresources
+    ref: main
+    dest: ./resources/[qb]/qb-smallresources
+
+  - action: download_github
+    src: https://github.com/qbcore-framework/qb-multicharacter
+    ref: main
+    dest: ./resources/[qb]/qb-multicharacter
+
+  - action: download_github
+    src: https://github.com/qbcore-framework/qb-spawn
+    ref: main
+    dest: ./resources/[qb]/qb-spawn
+
+  - action: download_github
+    src: https://github.com/qbcore-framework/qb-apartments
+    ref: main
+    dest: ./resources/[qb]/qb-apartments
+
+  - action: download_github
+    src: https://github.com/qbcore-framework/qb-inventory
+    ref: main
+    dest: ./resources/[qb]/qb-inventory
+
+  - action: download_github
+    src: https://github.com/qbcore-framework/qb-weapons
+    ref: main
+    dest: ./resources/[qb]/qb-weapons
+
+  - action: download_github
+    src: https://github.com/qbcore-framework/qb-hud
+    ref: main
+    dest: ./resources/[qb]/qb-hud
+
+  - action: download_github
+    src: https://github.com/qbcore-framework/qb-target
+    ref: main
+    dest: ./resources/[qb]/qb-target
+
+  - action: download_github
+    src: https://github.com/qbcore-framework/qb-menu
+    ref: main
+    dest: ./resources/[qb]/qb-menu
+
+  - action: download_github
+    src: https://github.com/qbcore-framework/qb-input
+    ref: main
+    dest: ./resources/[qb]/qb-input
+
+  - action: download_github
+    src: https://github.com/qbcore-framework/qb-vehiclekeys
+    ref: main
+    dest: ./resources/[qb]/qb-vehiclekeys
+
+  - action: download_github
+    src: https://github.com/qbcore-framework/qb-ambulancejob
+    ref: main
+    dest: ./resources/[qb]/qb-ambulancejob
+
+  - action: download_github
+    src: https://github.com/qbcore-framework/qb-policejob
+    ref: main
+    dest: ./resources/[qb]/qb-policejob
+
+  # ------------------------------------------------------------
+  # Datenbank-Verbindung
+  # ------------------------------------------------------------
+  - action: connect_database
+
+  # Danach: SQL-Dateien der QB-Ressourcen importieren, z.B.
+  # - action: query_database
+  #   file: ./resources/[qb]/qb-core/qbcore.sql
+
+  # ------------------------------------------------------------
+  # server.cfg  (hier ist die eigentliche Resource-Liste)
+  # ------------------------------------------------------------
+  - action: write_file
+    file: ./server.cfg
+    data: |
+      endpoint_add_tcp "0.0.0.0:{{serverEndpoints}}"
+      endpoint_add_udp "0.0.0.0:{{serverEndpoints}}"
+
+      sv_hostname "Apokalypse RP | Überleben um jeden Preis"
+      sets sv_projectName "Apokalypse RP"
+      sets sv_projectDesc "Zombie-Apokalypse Roleplay"
+      sets tags "roleplay, apocalypse, survival, zombies, qbcore, deutsch"
+      sets locale "de-DE"
+
+      sv_maxclients 48
+      set steam_webApiKey "none"
+      sv_licenseKey "{{svLicense}}"
+      set mysql_connection_string "mysql://{{dbUsername}}:{{dbPassword}}@{{dbHost}}/{{dbName}}?charset=utf8mb4"
+
+      # --- Basis (FiveM) ---
+      ensure mapmanager
+      ensure chat
+      ensure spawnmanager
+      ensure sessionmanager
+      ensure basic-gamemode
+      ensure hardcap
+
+      # --- Datenbank & Libraries ---
+      ensure oxmysql
+      ensure ox_lib
+      ensure PolyZone
+
+      # --- QBCore ---
+      ensure qb-core
+      ensure qb-target
+      ensure qb-menu
+      ensure qb-input
+      ensure [qb]
+
+      # --- Apokalypse / Survival (eigene oder gekaufte Scripts hier einfügen) ---
+      # ensure zombies            # Zombie-Spawning / KI
+      # ensure survival           # Hunger, Durst, Temperatur, Krankheiten
+      # ensure crafting           # Handwerk & Basteln
+      # ensure scavenging         # Plündern von Containern & Gebäuden
+      # ensure base-building      # Basenbau
+      # ensure safezones          # Sichere Zonen / Fraktionsgebiete
+      # ensure airdrops           # Versorgungsabwürfe
+      # ensure hordes             # Zombie-Horden-Events
+      # ensure radiation-zones    # Verseuchte Gebiete
+      # ensure trader             # Händler / Tauschsystem
+      # ensure fractions          # Gruppen / Clans
+
+      # --- Admin & Rechte ---
+      add_ace group.admin command allow
+      add_ace group.admin command.quit deny
+      add_principal group.admin group.admin
+      # add_principal identifier.fivem:DEINEID group.admin
+
+      # --- Performance / Sicherheit ---
+      set sv_enforceGameBuild 3095
+      sv_scriptHookAllowed 0
+      set onesync on
